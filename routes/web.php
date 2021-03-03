@@ -97,3 +97,20 @@ Route::get('/delete_product_image', function () {
     $product->photos()->delete();
     return "Image Deleted";
 });
+
+Route::get('/assign', function () {
+    $staff = Staff::findOrFail(1);
+    $photo = Photo::findOrFail(5);
+    $staff->photos()->save($photo);
+    return "Image Assigned";
+});
+
+Route::get('/unassign', function () {
+    $staff = Staff::findOrFail(1);
+    $photo = $staff->photos()->find(5);
+    // dd($photo);    
+    $photo->imageable_id = '0';
+    $photo->imageable_type = '';
+    $photo->update();    
+    return "Image Unassigned";
+});
